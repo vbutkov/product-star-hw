@@ -35,14 +35,14 @@ public class Matrices {
          * @return новый вектор, представляющий сумму данного и другого векторов
          */
         public Vector add(Vector other) {
-            if (isLengthMatches(other)) {
-                int[] vectorSum = new int[items.length];
-                for (int i = 0; i < items.length; i++) {
-                    vectorSum[i] += items[i] + other.items[i];
-                }
-                return new Vector(vectorSum);
+            isLengthMatches(other);
+
+            int[] vectorSum = new int[items.length];
+            for (int i = 0; i < items.length; i++) {
+                vectorSum[i] += items[i] + other.items[i];
             }
-            return new Vector(0);
+
+            return new Vector(vectorSum);
         }
 
         /**
@@ -53,14 +53,14 @@ public class Matrices {
          * @return новый вектор, представляющий разность данного и другого векторов
          */
         public Vector subtract(Vector other) {
-            if (isLengthMatches(other)) {
-                int[] vectorSub = new int[items.length];
-                for (int i = 0; i < items.length; i++) {
-                    vectorSub[i] += items[i] - other.items[i];
-                }
-                return new Vector(vectorSub);
+            isLengthMatches(other);
+
+            int[] vectorSub = new int[items.length];
+            for (int i = 0; i < items.length; i++) {
+                vectorSub[i] += items[i] - other.items[i];
             }
-            return new Vector(0);
+
+            return new Vector(vectorSub);
         }
 
         /**
@@ -71,16 +71,16 @@ public class Matrices {
          * @return скалярное произведение данного и другого векторов
          */
         public int dotProduct(Vector other) {
-            if (isLengthMatches(other)) {
-                int[] vectorMul = new int[items.length];
-                int vectorDotProduct = 0;
-                for (int i = 0; i < items.length; i++) {
-                    vectorMul[i] += items[i] * other.items[i];
-                    vectorDotProduct += vectorMul[i];
-                }
-                return vectorDotProduct;
+            isLengthMatches(other);
+
+            int[] vectorMul = new int[items.length];
+            int vectorDotProduct = 0;
+            for (int i = 0; i < items.length; i++) {
+                vectorMul[i] += items[i] * other.items[i];
+                vectorDotProduct += vectorMul[i];
             }
-            return -1;
+
+            return vectorDotProduct;
         }
 
         /**
@@ -94,6 +94,7 @@ public class Matrices {
             for (int i = 0; i < items.length; i++) {
                 vectorMulToScalar[i] += items[i] * scalar;
             }
+
             return new Vector(vectorMulToScalar);
         }
 
@@ -119,12 +120,9 @@ public class Matrices {
          * @param other вектор, для которого необходимо вычислить размер
          * @return true, если размер вектора совпадает с данным вектором, иначе false
          */
-        private boolean isLengthMatches(Vector other) {
-            if (other.items.length != this.items.length) {
-                System.out.println("Длины векторов не совпадают");
-                return false;
-            }
-            return true;
+        private void isLengthMatches(Vector other) {
+            if (other.items.length != this.items.length)
+                throw new IllegalArgumentException("Длины векторов не совпадают");
         }
     }
 
@@ -184,16 +182,16 @@ public class Matrices {
          * @return новая матрица, являющаяся результатом сложения
          */
         public Matrix add(Matrix other) {
-            if (isDimensionMathes(other)) {
-                int matrixSum[][] = new int[other.nRows][other.nCols];
-                for (int i = 0; i < nRows; i++) {
-                    for (int j = 0; j < nRows; j++) {
-                        matrixSum[i][j] = rows[i][j] + other.rows[i][j];
-                    }
+            isDimensionMathes(other);
+
+            int matrixSum[][] = new int[other.nRows][other.nCols];
+            for (int i = 0; i < nRows; i++) {
+                for (int j = 0; j < nRows; j++) {
+                    matrixSum[i][j] = rows[i][j] + other.rows[i][j];
                 }
-                return createMatrix(nRows, nCols, matrixSum);
             }
-            return createMatrix(0, 0, new int[][]{});
+
+            return createMatrix(nRows, nCols, matrixSum);
         }
 
 
@@ -205,16 +203,16 @@ public class Matrices {
          * @return новая матрица, являющаяся результатом вычитания
          */
         public Matrix subtract(Matrix other) {
-            if (isDimensionMathes(other)) {
-                int matrixSum[][] = new int[other.nRows][other.nCols];
-                for (int i = 0; i < nRows; i++) {
-                    for (int j = 0; j < nRows; j++) {
-                        matrixSum[i][j] = rows[i][j] - other.rows[i][j];
-                    }
+            isDimensionMathes(other);
+
+            int matrixSum[][] = new int[other.nRows][other.nCols];
+            for (int i = 0; i < nRows; i++) {
+                for (int j = 0; j < nRows; j++) {
+                    matrixSum[i][j] = rows[i][j] - other.rows[i][j];
                 }
-                return createMatrix(nRows, nCols, matrixSum);
             }
-            return createMatrix(0, 0, new int[][]{});
+
+            return createMatrix(nRows, nCols, matrixSum);
         }
 
         /**
@@ -225,10 +223,8 @@ public class Matrices {
          * @return новая матрица, являющаяся результатом умножения
          */
         public Matrix multiply(Matrix other) {
-            if (this.rows[0].length != other.rows.length) {
-                System.err.println("Кол-во строк матрицы А не равно кол-ву столбцов матрицы В");
-                return null;
-            }
+            if (this.rows[0].length != other.rows.length)
+                throw new IllegalArgumentException("Кол-во строк матрицы А не равно кол-ву столбцов матрицы В");
 
             int[][] matrixMul = new int[other.rows.length][this.rows[0].length];
             for (int i = 0; i < matrixMul.length; i++) {
@@ -238,6 +234,7 @@ public class Matrices {
                     }
                 }
             }
+
             return createMatrix(matrixMul.length, matrixMul[0].length, matrixMul);
         }
 
@@ -280,19 +277,17 @@ public class Matrices {
         public int determinant() {
 
             // Базовый случай для матрицы 1x1
-            if (this.rows.length == 1) {
+            if (this.rows.length == 1)
                 return this.rows[0][0];
-            }
 
             // Базовый случай для матрицы 2x2
-            if (this.rows.length == 2) {
+            if (this.rows.length == 2)
                 return determinantLength2(this.rows);
-            }
 
-            if (this.rows.length != this.rows[0].length) {
-                System.out.println("Кол-во строк матрицы не равно кол-ву столбцов.");
-                return -1;
-            }
+
+            if (this.rows.length != this.rows[0].length)
+                throw new IllegalArgumentException("Кол-во строк матрицы не равно кол-ву столбцов.");
+
             int num1, num2, det = 1, index,
                     total = 1;
 
@@ -396,6 +391,7 @@ public class Matrices {
                 // Обновление результата с учетом элемента i разложения, его знака и поддетерминанта
                 result += sign * matrix[0][i] * subDeterminant;
             }
+
             return result;
         }
 
@@ -412,12 +408,9 @@ public class Matrices {
             }
         }
 
-        private boolean isDimensionMathes(Matrix other) {
-            if (this.nRows != other.nRows || this.nCols != other.nCols) {
-                System.out.println("Размерность матриц не совпадают");
-                return false;
-            }
-            return true;
+        private void isDimensionMathes(Matrix other) {
+            if (this.nRows != other.nRows || this.nCols != other.nCols)
+                throw new IllegalArgumentException("Размерность матриц не совпадают");
         }
 
         private Matrix createMatrix(int nRows, int cCols, int[][] arr) {
@@ -425,6 +418,7 @@ public class Matrices {
             for (int i = 0; i < arr.length; i++) {
                 matrix.rows[i] = arr[i];
             }
+
             return matrix;
         }
 
