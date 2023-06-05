@@ -35,7 +35,14 @@ public class Matrices {
          * @return новый вектор, представляющий сумму данного и другого векторов
          */
         public Vector add(Vector other) {
-            return todo();
+            if (isLengthMatches(other)) {
+                int[] vectorSum = new int[items.length];
+                for (int i = 0; i < items.length; i++) {
+                    vectorSum[i] += items[i] + other.items[i];
+                }
+                return new Vector(vectorSum);
+            }
+            return new Vector(0);
         }
 
         /**
@@ -46,7 +53,14 @@ public class Matrices {
          * @return новый вектор, представляющий разность данного и другого векторов
          */
         public Vector subtract(Vector other) {
-            return todo();
+            if (isLengthMatches(other)) {
+                int[] vectorSub = new int[items.length];
+                for (int i = 0; i < items.length; i++) {
+                    vectorSub[i] += items[i] - other.items[i];
+                }
+                return new Vector(vectorSub);
+            }
+            return new Vector(0);
         }
 
         /**
@@ -57,7 +71,16 @@ public class Matrices {
          * @return скалярное произведение данного и другого векторов
          */
         public int dotProduct(Vector other) {
-            return todo();
+            if (isLengthMatches(other)) {
+                int[] vectorMul = new int[items.length];
+                int vectorDotProduct = 0;
+                for (int i = 0; i < items.length; i++) {
+                    vectorMul[i] += items[i] * other.items[i];
+                    vectorDotProduct += vectorMul[i];
+                }
+                return vectorDotProduct;
+            }
+            return -1;
         }
 
         /**
@@ -67,19 +90,41 @@ public class Matrices {
          * @return новый вектор, представляющий результат умножения данного вектора на скаляр
          */
         public Vector scalarMultiply(int scalar) {
-            return todo();
+            int[] vectorMulToScalar = new int[items.length];
+            for (int i = 0; i < items.length; i++) {
+                vectorMulToScalar[i] += items[i] * scalar;
+            }
+            return new Vector(vectorMulToScalar);
         }
 
         /**
          * Вычисляет длину (норму) данного вектора.
          */
         public double length() {
-            return todo();
+            int vectorCoordinatesSum = 0;
+            for (int i = 0; i < items.length; i++) {
+                vectorCoordinatesSum += items[i] * items[i];
+            }
+            return Math.sqrt(vectorCoordinatesSum);
         }
 
         @Override
         public String toString() {
             return Arrays.toString(items);
+        }
+
+        /**
+         * Проверяем размер вектора
+         *
+         * @param other вектор, для которого необходимо вычислить размер
+         * @return true, если размер вектора совпадает с данным вектором, иначе false
+         */
+        private boolean isLengthMatches(Vector other) {
+            if (other.items.length != this.items.length) {
+                System.out.println("Длины векторов не совпадают");
+                return false;
+            }
+            return true;
         }
     }
 
@@ -139,8 +184,18 @@ public class Matrices {
          * @return новая матрица, являющаяся результатом сложения
          */
         public Matrix add(Matrix other) {
-            return todo();
+            if (isDimensionMathes(other)) {
+                int matrixSum[][] = new int[other.nRows][other.nCols];
+                for (int i = 0; i < nRows; i++) {
+                    for (int j = 0; j < nRows; j++) {
+                        matrixSum[i][j] = rows[i][j] + other.rows[i][j];
+                    }
+                }
+                return createMatrix(nRows, nCols, matrixSum);
+            }
+            return createMatrix(0, 0, new int[][]{});
         }
+
 
         /**
          * Вычитает другую матрицу из текущей матрицы.
@@ -150,7 +205,16 @@ public class Matrices {
          * @return новая матрица, являющаяся результатом вычитания
          */
         public Matrix subtract(Matrix other) {
-            return todo();
+            if (isDimensionMathes(other)) {
+                int matrixSum[][] = new int[other.nRows][other.nCols];
+                for (int i = 0; i < nRows; i++) {
+                    for (int j = 0; j < nRows; j++) {
+                        matrixSum[i][j] = rows[i][j] - other.rows[i][j];
+                    }
+                }
+                return createMatrix(nRows, nCols, matrixSum);
+            }
+            return createMatrix(0, 0, new int[][]{});
         }
 
         /**
@@ -161,7 +225,20 @@ public class Matrices {
          * @return новая матрица, являющаяся результатом умножения
          */
         public Matrix multiply(Matrix other) {
-            return todo();
+            if (this.rows[0].length != other.rows.length) {
+                System.err.println("Кол-во строк матрицы А не равно кол-ву столбцов матрицы В");
+                return null;
+            }
+
+            int[][] matrixMul = new int[other.rows.length][this.rows[0].length];
+            for (int i = 0; i < matrixMul.length; i++) {
+                for (int j = 0; j < matrixMul[0].length; j++) {
+                    for (int k = 0; k < this.rows[0].length; k++) {
+                        matrixMul[i][j] += this.rows[i][k] * other.rows[k][j];
+                    }
+                }
+            }
+            return createMatrix(matrixMul.length, matrixMul[0].length, matrixMul);
         }
 
         /**
@@ -171,7 +248,13 @@ public class Matrices {
          * @return новая матрица, являющаяся результатом умножения на скаляр
          */
         public Matrix scalarMultiply(int scalar) {
-            return todo();
+            int matrixMulToScalar[][] = new int[this.nRows][this.nCols];
+            for (int i = 0; i < nRows; i++) {
+                for (int j = 0; j < nRows; j++) {
+                    matrixMulToScalar[i][j] = rows[i][j] * scalar;
+                }
+            }
+            return createMatrix(nRows, nCols, matrixMulToScalar);
         }
 
         /**
@@ -180,7 +263,13 @@ public class Matrices {
          * @return новая матрица, являющаяся транспонированной версией текущей матрицы
          */
         public Matrix transpose() {
-            return todo();
+            int matrixTranspose[][] = new int[this.nRows][this.nCols];
+            for (int i = 0; i < nRows; i++) {
+                for (int j = 0; j < nCols; j++) {
+                    matrixTranspose[i][j] = rows[j][i];
+                }
+            }
+            return createMatrix(nRows, nCols, matrixTranspose);
         }
 
         /**
@@ -189,7 +278,86 @@ public class Matrices {
          * @return значение определителя матрицы
          */
         public int determinant() {
-            return todo();
+
+            // Базовый случай для матрицы 1x1
+            if (this.rows.length == 1) {
+                return this.rows[0][0];
+            }
+
+            // Базовый случай для матрицы 2x2
+            if (this.rows.length == 2) {
+                return determinantLength2(this.rows);
+            }
+
+            if (this.rows.length != this.rows[0].length) {
+                System.out.println("Кол-во строк матрицы не равно кол-ву столбцов.");
+                return -1;
+            }
+            int num1, num2, det = 1, index,
+                    total = 1;
+
+            for (int i = 0; i < nRows; i++) {
+                index = i;
+
+                while (index < nRows && this.rows[index][i] == 0)
+                    index++;
+
+                if (index == nRows)
+                    break;
+
+                if (index != i) {
+                    for (int j = 0; j < nRows; j++) {
+                        swap(this.rows, index, j, i, j);
+                    }
+                    det = (int) (det * Math.pow(-1, index - i));
+                }
+
+                int[] temp = new int[nRows + 1];
+                for (int j = 0; j < nRows; j++) {
+                    temp[j] = this.rows[i][j];
+                }
+
+                for (int j = i + 1; j < nRows; j++) {
+                    num1 = temp[i];
+                    num2 = this.rows[j][i];
+
+                    for (int k = 0; k < nRows; k++) {
+                        this.rows[j][k] = (num1 * this.rows[j][k])
+                                - (num2 * temp[k]);
+                    }
+                    total = total * num1;
+                }
+            }
+
+            for (int i = 0; i < nRows; i++) {
+                det = det * this.rows[i][i];
+            }
+
+            return (det / total);
+        }
+
+        private int[][] swap(int[][] arr, int i1, int j1, int i2,
+                             int j2) {
+            int temp = arr[i1][j1];
+            arr[i1][j1] = arr[i2][j2];
+            arr[i2][j2] = temp;
+            return arr;
+        }
+
+        private static int determinantLength2(int[][] matrix) {
+            int mainDiagonalMul = 1;
+            int sideDiagonalMul = 1;
+            for (int i = 0; i < matrix.length; i++) {
+                for (int j = 0; j < matrix[0].length; j++) {
+                    if (j == matrix[0].length - i - 1) {
+                        sideDiagonalMul *= matrix[i][j];
+                    }
+                    if (i == j) {
+                        mainDiagonalMul *= matrix[i][j];
+                    }
+                }
+            }
+            return mainDiagonalMul - sideDiagonalMul;
         }
 
         /**
@@ -200,6 +368,7 @@ public class Matrices {
          * @return определитель матрицы matrix
          */
         private static int determinant(int[][] matrix) {
+
             // Базовый случай для матрицы 1x1
             if (matrix.length == 1) {
                 return matrix[0][0];
@@ -207,7 +376,7 @@ public class Matrices {
 
             // Базовый случай для матрицы 2x2
             if (matrix.length == 2) {
-                return todo();
+                return determinantLength2(matrix);
             }
 
             int result = 0;
@@ -215,7 +384,8 @@ public class Matrices {
             for (int i = 0; i < matrix.length; i++) {
                 // Создание матрицы для поддетерминанта
                 int[][] smallerMatrix = new int[matrix.length - 1][matrix.length - 1];
-                todo(); // Заполнение smallerMatrix нужными значениями из matrix
+
+                fillSmallerMatrix(matrix, smallerMatrix, i);
 
                 // Вычисление поддетерминанта рекурсивным вызовом
                 int subDeterminant = determinant(smallerMatrix);
@@ -227,6 +397,35 @@ public class Matrices {
                 result += sign * matrix[0][i] * subDeterminant;
             }
             return result;
+        }
+
+        private static void fillSmallerMatrix(int[][] matrix, int[][] smallerMatrix, int index) {
+            int row = 0;
+            for (int i = 0; i < matrix.length; i++) {
+                int col = 0;
+                for (int j = 0; j < matrix[0].length; j++) {
+                    if (i != 0 && j != index) {
+                        smallerMatrix[row][col++] = matrix[i][j];
+                    }
+                }
+                if (col > 0) row++;
+            }
+        }
+
+        private boolean isDimensionMathes(Matrix other) {
+            if (this.nRows != other.nRows || this.nCols != other.nCols) {
+                System.out.println("Размерность матриц не совпадают");
+                return false;
+            }
+            return true;
+        }
+
+        private Matrix createMatrix(int nRows, int cCols, int[][] arr) {
+            Matrix matrix = new Matrix(nRows, nCols);
+            for (int i = 0; i < arr.length; i++) {
+                matrix.rows[i] = arr[i];
+            }
+            return matrix;
         }
 
     }
@@ -276,6 +475,7 @@ public class Matrices {
         Matrix B = new Matrix(2, 2);
         B.rows[0] = new int[]{2, 0};
         B.rows[1] = new int[]{1, 2};
+
         System.out.println("Matrix B:");
         System.out.println(B.toString());
 
@@ -314,8 +514,12 @@ public class Matrices {
         System.out.println(H.toString());
 
         // Вычисление определителя матрицы H
-        int det = H.determinant();
+        int det = H.determinant(new int[][]{{4, 3, 2}, {1, 3, 1}, {2, 1, 4}});
         System.out.println("Determinant of Matrix H:");
+        System.out.println(det);
+
+        System.out.println("Determinant current of Matrix:");
+        det = H.determinant();
         System.out.println(det);
 
     }
