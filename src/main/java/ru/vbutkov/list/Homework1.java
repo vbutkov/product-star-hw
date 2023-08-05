@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
-public class Homework {
+public class Homework1 {
 
     public static void main(String[] args) {
         ArrayList<Integer> listIntegers = new ArrayList<>(Arrays.asList(1, 2, 3, 5, 10));
