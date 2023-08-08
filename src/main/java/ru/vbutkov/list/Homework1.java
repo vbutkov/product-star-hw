@@ -27,7 +27,6 @@ public class Homework1 {
             double average = summa / list.size();
             listAverageValues.add(average);
         }
-
         return listAverageValues;
     }
 
@@ -48,5 +47,14 @@ public class Homework1 {
 
         return listSubLists;
     }
+
+
+    public static void myFunc() {
+        int a = 5;
+        int b = 10;
+
+
+    }
+
 
 }
