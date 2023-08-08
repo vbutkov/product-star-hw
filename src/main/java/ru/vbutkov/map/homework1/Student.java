@@ -26,12 +26,4 @@ public class Student {
         return uuid;
     }
 
-    @Override
-    public String toString() {
-        return "Student{" +
-                "name='" + name + '\'' +
-                '}';
-    }
-
-
 }
