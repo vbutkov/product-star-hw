@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.util.Optional;
 import java.util.stream.Stream;
 
-public class Homework1 {
+public class Homework {
     private static final String COORDINATES = "coordinates.txt";
 
     public static void main(String[] args) {
@@ -20,7 +20,7 @@ public class Homework1 {
     }
 
     private static void findMaxLengthLineSegment(Stream<String> stringStream) {
-        Optional<Double> maxLength = stringStream.map(Homework1::getLengthLineSegment)
+        Optional<Double> maxLength = stringStream.map(Homework::getLengthLineSegment)
                 .max(Double::compare);
 
         System.out.println(maxLength.orElseGet(() -> 0.0));
