@@ -1,0 +1,8 @@
+
+Q
+java:S3740"/Provide the parametrized type for this generic.(Ôõê‹üÿÿÿÿ8Ì…ø¨1
+	java:S116"eRename this field "TOP_AVERAGE_SCORES_STUDENT" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ŸÛ„”8Ş…ø¨1
+>
+java:S1170"!Make this final field static too.(ŸÛ„”8Ş…ø¨1
+T	java:S106"9Replace this use of System.out or System.err by a logger.(€ƒ‹8ïÜ‹©1
+Z	java:S106"9Replace this use of System.out or System.err by a logger.(Áüéúÿÿÿÿ8˜Œ©1
