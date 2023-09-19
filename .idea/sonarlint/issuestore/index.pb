@@ -1,6 +1,4 @@
 
-7
-pom.xml,4/4/442292b8a7efeabbe4cc176709b833b1792140ec
 \
 ,src/main/java/ru/vbutkov/list/Homework1.java,e/5/e5ff0715279a1792296297a50cbc33a4c5f438e9
 e
