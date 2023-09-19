@@ -8,8 +8,12 @@
 
 3. Сделай выводы: какой из алгоритмов работает быстрее, насколько по времени и какой из этих алгоритмов ты будешь использовать в дальнейшем и почему?
 
+  Тестовые замеры проводились на наборе данных размера 3000 элементов.  
    ```
-   Bubble sort elapsed time: 28ёms
+   Bubble sort elapsed time: 28ms
+   Arrays.sort elapsed time: 1ms
+   
+   InsertSort sort elapsed time: 11ms
    Arrays.sort elapsed time: 1ms
    ```
 
